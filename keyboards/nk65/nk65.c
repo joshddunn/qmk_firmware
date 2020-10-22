@@ -34,12 +34,13 @@ __attribute__((weak)) layer_state_t layer_state_set_user(layer_state_t state) {
     uint8_t R = 0;
     uint8_t G = 0;
     uint8_t B = 0;
-    int channel = 6;
 
     if (state & (1UL << 1)) {
-        channel = 7;
-        G = 255;
+      IS31FL3733_set_color( 7+64-1, 0, 255, 0 );
+    } else {
+      IS31FL3733_set_color( 7+64-1, 0, 0, 0 );
     }
+
     if (state & (1UL << 2)) {
         R = 255;
         B = 255;
@@ -48,10 +49,6 @@ __attribute__((weak)) layer_state_t layer_state_set_user(layer_state_t state) {
         G = 255;
     }
 
-    if (channel == 6) {
-      IS31FL3733_set_color( 7+64-1, 0, 0, 0 );
-    }
-
-    IS31FL3733_set_color( channel+64-1, R, G, B );
+    IS31FL3733_set_color( 6+64-1, R, G, B );
   return state;
 }
